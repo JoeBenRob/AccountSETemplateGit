@@ -15,6 +15,10 @@ public class Account {
 		this.lastName = lastName;
 	}
 
+	public Account() {
+		super();
+	}
+
 	public int getId() {
 		return id;
 	}
