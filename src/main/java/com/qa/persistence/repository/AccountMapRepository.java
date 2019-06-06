@@ -3,16 +3,19 @@ package com.qa.persistence.repository;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.enterprise.inject.Default;
+import javax.enterprise.inject.Alternative;
+import javax.inject.Inject;
 
 import com.qa.persistence.domain.Account;
 import com.qa.util.JSONUtil;
 
-@Default
+@Alternative
 public class AccountMapRepository implements AccountRepository {
 
 	private Map<Integer, Account> accountMap = new HashMap<Integer, Account>();
-	private JSONUtil jsonUtil = new JSONUtil();
+
+	@Inject
+	private JSONUtil util;
 
 	// You must provide concrete implementation for each of these methods
 	// do not change the method signature
@@ -24,7 +27,7 @@ public class AccountMapRepository implements AccountRepository {
 	// You can use the suggested tests or build your own.
 
 	public String getAllAccounts() {
-		return jsonUtil.getJSONForObject(accountMap);
+		return util.getJSONForObject(accountMap);
 	}
 
 	public Map<Integer, Account> getAccountMap() {
@@ -33,7 +36,7 @@ public class AccountMapRepository implements AccountRepository {
 
 	public String createAccount(String account) {
 
-		Account acc = jsonUtil.getObjectForJSON(account, Account.class);
+		Account acc = util.getObjectForJSON(account, Account.class);
 
 		accountMap.put(acc.getAccountNumber(), acc);
 
@@ -47,7 +50,7 @@ public class AccountMapRepository implements AccountRepository {
 
 	public String updateAccount(int accountNumber, String account) {
 
-		Account acc = jsonUtil.getObjectForJSON(account, Account.class);
+		Account acc = util.getObjectForJSON(account, Account.class);
 
 		accountMap.replace(accountNumber, acc);
 
