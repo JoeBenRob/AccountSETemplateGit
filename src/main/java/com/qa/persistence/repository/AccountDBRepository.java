@@ -3,6 +3,7 @@ package com.qa.persistence.repository;
 import java.util.Collection;
 
 import javax.enterprise.inject.Default;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -18,12 +19,16 @@ public class AccountDBRepository implements AccountRepository {
 
 	@PersistenceContext(unitName = "primary")
 	private EntityManager em;
+
+	@Inject
 	private JSONUtil json;
 
 	public String getAllAccounts() {
 
 		Query query = em.createQuery("SELECT a FROM Account a");
+
 		Collection<Account> accounts = (Collection<Account>) query.getResultList();
+
 		return json.getJSONForObject(accounts);
 
 	}
